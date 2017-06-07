@@ -159,8 +159,11 @@ return [
         // HTML&FORMS
         Collective\Html\HtmlServiceProvider::class,
 
-        //Laravel ide-helper
+        // Laravel ide-helper
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+
+        // Lavary/laravel-menu
+        'Lavary\Menu\ServiceProvider',
 
     ],
 
@@ -210,6 +213,9 @@ return [
 
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
+
+        'Menu'       => 'Lavary\Menu\Facade',
+
 
     ],
 
