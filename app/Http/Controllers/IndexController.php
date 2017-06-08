@@ -2,6 +2,7 @@
 
 namespace Corp\Http\Controllers;
 
+use Corp\Repositories\ArticlesRepository;
 use Corp\Repositories\PortfoliosRepository;
 use Corp\Repositories\SlidersRepository;
 use Illuminate\Http\Request;
@@ -11,12 +12,13 @@ use Illuminate\Support\Facades\Config;
 
 class IndexController extends SiteController{
 
-    public function __construct(SlidersRepository $slider_repo, PortfoliosRepository $portfolio_repo){
+    public function __construct(SlidersRepository $slider_repo, PortfoliosRepository $portfolio_repo, ArticlesRepository $article_repo){
 
         parent::__construct(new \Corp\Repositories\MenusRepository(new \Corp\Menu));
 
         $this->slider_repo = $slider_repo;
         $this->portfolio_repo = $portfolio_repo;
+        $this->$article_repo = $article_repo;
 
         $this->bar = 'right';
         $this->template = env('THEME').'.index';
@@ -38,7 +40,19 @@ class IndexController extends SiteController{
 
         $sliders = view(env('THEME').'.slider')->with('sliders', $sliderItems)->render();
         $this->vars = array_add($this->vars, 'sliders', $sliders);
+
+        $articles = $this->getArticles();
+        dd($articles);
+        $this->contentRightBar =view(env('THEME').'.indexBar')->with('articles', $articles)->render();
+
         return $this->renderOutput();
+    }
+
+    protected function getArticles(){
+
+        $articles = $this->article_repo->get(['title', 'created_at', 'image', 'alias'], Config::get('settings.homepage_articles_count'));
+        return $articles;
+
     }
 
     protected function getPortfolio(){
