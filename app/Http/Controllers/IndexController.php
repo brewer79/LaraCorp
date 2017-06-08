@@ -18,7 +18,7 @@ class IndexController extends SiteController{
 
         $this->slider_repo = $slider_repo;
         $this->portfolio_repo = $portfolio_repo;
-        $this->$article_repo = $article_repo;
+        $this->article_repo = $article_repo;
 
         $this->bar = 'right';
         $this->template = env('THEME').'.index';
@@ -42,7 +42,7 @@ class IndexController extends SiteController{
         $this->vars = array_add($this->vars, 'sliders', $sliders);
 
         $articles = $this->getArticles();
-        dd($articles);
+        //dd($articles);
         $this->contentRightBar =view(env('THEME').'.indexBar')->with('articles', $articles)->render();
 
         return $this->renderOutput();
