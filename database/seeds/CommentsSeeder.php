@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Seeder;
 
+use Corp\Comment;
+
 class CommentsSeeder extends Seeder
 {
     /**
@@ -11,6 +13,23 @@ class CommentsSeeder extends Seeder
      */
     public function run()
     {
-        //
+        Comment::create(
+            [
+                'text'=>'Good morning',
+                'name'=>'Brewer',
+                'email'=>'eurocenter@ukr.net',
+                'site'=>'eurocenter.kiev.ua',
+                'article_id'=>'1',
+            ]
+        );
+        Comment::create(
+            [
+                'text'=>'Good morning',
+                'name'=>'Brewer',
+                'email'=>'eurocenter@ukr.net',
+                'site'=>'eurocenter.kiev.ua',
+                'article_id'=>'1',
+            ]
+        );
     }
 }

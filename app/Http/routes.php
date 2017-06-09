@@ -17,13 +17,22 @@ Route::resource('/', 'IndexController', [
                                             'index' => 'home'
                                         ]
                                         ]);
+
 Route::resource('portfolios', 'PortfolioController', [
                                                         'parameters' => [
                                                             'portfolios' => 'alias'
                                                         ]
                                                      ]);
+
 Route::resource('articles', 'ArticlesController', [
                                                     'parameters' => [
                                                         'articles' => 'alias'
                                                     ]
                                                   ]);
+
+Route::get('articles/category/{category_alias?}',
+            ['uses' => 'ArticlesController@index', 'as' => 'articlesCategory']);
+
+
+
+

@@ -12,5 +12,10 @@ class ArticlesRepository extends Repository {
 
     }
 
+    public function user(){
+
+        return $this->belongsTo('Corp\User');
+
+    }
 }
 ?>
