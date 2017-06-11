@@ -28,7 +28,7 @@
     <meta name="keywords" content="{{ isset($keywords) ? $keywords : '' }}" />
     <meta name="description" content="{{ isset($meta_desc) ? $meta_desc : '' }}" />
 
-    <title>{{ $title or 'Yellow' }}</title>
+    <title>{{ $title or 'Yellow & violet' }}</title>
 
     <!-- [favicon] begin -->
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset(env('THEME')) }}/images/favicon.ico" />
@@ -84,7 +84,7 @@
 <!-- END HEAD -->
 
 <!-- START BODY -->
-<body class="no_js responsive page-template-home-php stretched">
+<body class="no_js responsive {{ Route::currentRouteName() == 'home' ? 'page-template-home-php' : '' }} stretched">
 
 <!-- START BG SHADOW -->
 <div class="bg-shadow">
