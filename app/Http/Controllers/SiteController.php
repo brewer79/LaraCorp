@@ -13,6 +13,7 @@ class SiteController extends Controller
     protected $slider_repo;
     protected $article_repo;
     protected $menu_repo;
+    protected $comment_repo;
 
     protected $keywords;
     protected $meta_desc;
