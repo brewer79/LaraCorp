@@ -10,7 +10,7 @@ abstract class Repository {
 
     public function get($select = '*', $take = FALSE, $pagination = FALSE, $where = FALSE){
 
-        $builder = $this->model->select('*');
+        $builder = $this->model->select($select);
 
         if($take){
             $builder->take($take);
@@ -44,6 +44,13 @@ abstract class Repository {
 
         });
 
+        return $result;
+
+    }
+
+    public function one($alias, $attr = array()){
+
+        $result = $this->model->where('alias', $alias)->first();
         return $result;
 
     }

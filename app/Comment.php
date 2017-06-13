@@ -11,4 +11,10 @@ class Comment extends Model
         return $this->belongsTo('Corp\Article');
 
     }
+
+    public function user() {
+
+        return $this->belongsTo('Corp\User');
+
+    }
 }

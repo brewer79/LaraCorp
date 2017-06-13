@@ -47,7 +47,7 @@ class ArticlesController extends SiteController
         $comments =$this->comment_repo->get(['text', 'name', 'email', 'site', 'article_id', 'user_id'], $take);
         if($comments){
 
-            $comments->load('article');
+            $comments->load('article', 'user');
 
         }
         return $comments;
@@ -80,6 +80,29 @@ class ArticlesController extends SiteController
         }
 
         return $articles;
+
+    }
+
+    public function show($alias = FALSE){
+
+        $article = $this->article_repo->one($alias, ['comments' => TRUE]);
+
+        if($article){
+
+            $article->image = json_decode($article->image);
+
+        }
+
+        $content = view(env('THEME').'.article_content')->with('article', $article)->render();
+        $this->vars = array_add($this->vars, 'content', $content);
+
+        $comments = $this->getComments(config('settings.recent_comments'));
+        $portfolios = $this->getPortfolios(config('settings.recent_portfolios'));
+
+        $this->contentRightBar = view(env('THEME').'.articlesBar')->with(['comments' => $comments, 'portfolios' => $portfolios]);
+
+
+        return $this->renderOutput();
 
     }
 
