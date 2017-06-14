@@ -62,18 +62,27 @@ class CommentController extends SiteController
         }
 
         $user = Auth::user();
-        $comm = new Comment($data);
+        $comment = new Comment($data);
         if($user){
 
-            $comm->user_id->$user->id;
+            $comment->user_id->$user->id;
 
         }
         $post = Article::find($data['article_id']);
-        $post->comment()->save($comm);
+        $post->comment()->save($comment);
+        $comment->load('user');
+        $data['id'] = $comment->id;
 
-        echo json_encode(['hello'=>'world']);
+        $data['email'] = (!empty($data['email'])) ? $data['email'] : $comment->user->email;
+        $data['name'] = (!empty($data['name'])) ? $data['name'] : $comment->user->name;
+
+        $data['hash'] = md5($data['email']);
+        $view_comment = view(env('THEME').'.content_one_comment')->with('data', $data)->render();
+
+        return Response::json(['success' => TRUE, 'comment' => $view_comment, 'data' => $data]);
 
         exit();
+
     }
 
     /**
