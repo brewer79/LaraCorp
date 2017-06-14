@@ -28,7 +28,9 @@
     <meta name="keywords" content="{{ isset($keywords) ? $keywords : '' }}" />
     <meta name="description" content="{{ isset($meta_desc) ? $meta_desc : '' }}" />
 
-    <title>{{ $title or 'Yellow & violet' }}</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}"/>
+
+    <title>{{ $title or 'yellow & violet' }}</title>
 
     <!-- [favicon] begin -->
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset(env('THEME')) }}/images/favicon.ico" />
