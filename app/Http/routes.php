@@ -34,5 +34,5 @@ Route::get('articles/category/{category_alias?}',
             ['uses' => 'ArticlesController@index', 'as' => 'articlesCategory']);
 
 
-
+Route::resource('comment', 'CommentController', ['only' => ['store']]);
 
