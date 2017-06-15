@@ -28,7 +28,7 @@ class ArticlesController extends SiteController
 
     public function index($category_alias = FALSE) {
 
-        $this->title = 'Блог';
+        $this->title = 'Блог';  // доделать!
         $this->keywords = 'Keywords';
         $this->meta_desc = 'meta_desc';
 
