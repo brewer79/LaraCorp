@@ -41,6 +41,7 @@ class CommentController extends SiteController
      */
     public function store(Request $request)
     {
+
         $data = $request->except('_token', 'comment_post_ID', 'comment_parent');
         $data['article_id'] = $request->input('comment_post_ID');
         $data['parent_id'] = $request->input(('comment_parent'));
