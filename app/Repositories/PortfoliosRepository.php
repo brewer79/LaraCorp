@@ -12,5 +12,17 @@ class PortfoliosRepository extends Repository {
 
     }
 
+    public function one($alias, $attr = array()) {
+
+        $portfolio = parent::one($alias, $attr);
+
+        if($portfolio && $portfolio->image) {
+
+            $portfolio->image = json_decode($portfolio->image);
+
+        }
+        return $portfolio;
+    }
+
 }
 ?>
