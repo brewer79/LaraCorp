@@ -36,3 +36,5 @@ Route::get('articles/category/{category_alias?}',
 
 Route::resource('comment', 'CommentController', ['only' => ['store']]);
 
+Route::match(['get', 'post'], '/contacts', ['uses' => 'ContactsController@index', 'as' => 'contacts']);
+
