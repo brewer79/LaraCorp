@@ -31,7 +31,7 @@ Route::resource('articles', 'ArticlesController', [
                                                   ]);
 
 Route::get('articles/category/{category_alias?}',
-            ['uses' => 'ArticlesController@index', 'as' => 'articlesCategory']);
+            ['uses' => 'ArticlesController@index', 'as' => 'articlesCategory'])->where('category_alias', '[\w-]+');
 
 
 Route::resource('comment', 'CommentController', ['only' => ['store']]);
