@@ -29,9 +29,15 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    protected function articles(){
+    public function articles(){
 
         return $this->hasMany('Corp\Article');
+
+    }
+
+    public function roles(){
+
+        return $this->belongsToMany('Corp\Role', 'role_user');
 
     }
 }
