@@ -2,13 +2,29 @@
 
 namespace Corp\Http\Controllers\Admin;
 
+use Corp\Category;
+use Corp\Repositories\ArticlesRepository;
 use Illuminate\Http\Request;
 
 use Corp\Http\Requests;
 use Corp\Http\Controllers\Controller;
+use Gate;
 
-class ArticlesController extends Controller
+class ArticlesController extends AdminController
 {
+    public function __construct(ArticlesRepository $article_repo){
+
+        parent::__construct();
+        if(Gate::denies('VIEW_ADMIN_ARTICLES')){
+
+            abort(403);
+
+        }
+        $this->article_repo = $article_repo;
+        $this->template = env('THEME').'.admin.articles';
+
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +32,17 @@ class ArticlesController extends Controller
      */
     public function index()
     {
-        //
+        $this->title = 'Менеджер статей';
+        $articles = $this->getArticles();
+        $this->content = view(env('THEME').'.admin.articles_content')->with('articles', $articles)->render();
+
+        return $this->renderOutput();
+    }
+
+    public function getArticles(){
+
+        return $this->article_repo->get();
+
     }
 
     /**
@@ -26,8 +52,33 @@ class ArticlesController extends Controller
      */
     public function create()
     {
-        //
-    }
+        if(Gate::denies('save', new \Corp\Article)){
+
+            abort(403);
+
+        }
+
+        $this->title = 'Добавить новый материал';
+
+        $categories = Category::select(['title', 'alias', 'parent_id', 'id'])->get();
+        $lists = array();
+        foreach($categories as $category){
+
+            if($category->parent_id == 0){
+
+                $lists[$category->title] = array();
+
+            }
+            else{
+
+                $lists[$categories->where('id', $category->parent_id)->first()->title][$category->id] = $category->title;
+
+            }
+
+        }
+        $this->content = view(env('THEME').'.admin.articles_create_content')->with('categories', $lists)->render();
+        return $this->renderOutput();
+;    }
 
     /**
      * Store a newly created resource in storage.
