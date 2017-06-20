@@ -95,7 +95,7 @@ class ArticlesController extends AdminController
             return back()->with($result);
 
         }
-        return redirect('\admin')->with($result);
+        return redirect('/admin')->with($result);
     }
 
     /**

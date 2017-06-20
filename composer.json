@@ -10,7 +10,8 @@
         "barryvdh/laravel-ide-helper": "^2.3",
         "doctrine/dbal": "^2.5",
         "lavary/laravel-menu": "^1.6",
-        "laravelcollective/html": "^5.2.0"
+        "laravelcollective/html": "^5.2.0",
+        "intervention/image": "2.*"
 
     },
     "require-dev": {

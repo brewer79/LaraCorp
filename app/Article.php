@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
 {
+    protected $fillable = ['title','image','alias','text','descript','keywords','meta_desc','category_id'];
+
     public function user(){
 
         return $this->belongsTo('Corp\User');
