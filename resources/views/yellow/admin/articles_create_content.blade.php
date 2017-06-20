@@ -75,7 +75,7 @@
                         <span class="label">Изображения материала:</span>
                     </label>
 
-                    {{ HTML::image(asset(env('THEME')).'/images/articles/'.$article->image->path,'',['style'=>'width:400px']) }}
+                    {{ Html::image(asset(env('THEME')).'/images/articles/'.$article->image->path,'',['style'=>'width:400px']) }}
                     {!! Form::hidden('old_image',$article->image->path) !!}
 
                 </li>
