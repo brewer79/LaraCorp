@@ -92,7 +92,9 @@ class ArticlesRepository extends Repository {
                 $this->model->fill($data);
 
                 if($request->user()->articles()->save($this->model)) {
+
                     return ['status' => 'Материал добавлен'];
+
                 }
 
             }

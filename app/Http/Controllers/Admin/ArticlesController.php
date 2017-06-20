@@ -134,6 +134,7 @@ class ArticlesController extends AdminController
             else{
 
                 $lists[$categories->where('id', $category->parent_id)->first()->title][$category->id] = $category->title;
+
             }
         }
         $this->title = 'Редактирование материала -'.$article->title;
