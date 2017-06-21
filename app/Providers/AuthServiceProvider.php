@@ -3,10 +3,12 @@
 namespace Corp\Providers;
 
 use Corp\Article;
+use Corp\Permission;
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Corp\User;
 use Corp\Policies\ArticlePolicy;
+use Corp\Policies\PermissionPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -18,6 +20,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         //'Corp\Model' => 'Corp\Policies\ModelPolicy',
         Article::class => ArticlePolicy::class,
+        Permission::class => PermissionPolicy::class
     ];
 
     /**
