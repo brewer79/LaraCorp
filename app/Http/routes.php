@@ -53,4 +53,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function(){
     // articles
     Route::resource('/articles', 'Admin\ArticlesController');
 
+    // permissions
+    Route::resource('/permissions', 'Admin\PermissionsController');
+
 });

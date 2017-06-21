@@ -17,7 +17,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         //'Corp\Model' => 'Corp\Policies\ModelPolicy',
-        Article::class => ArticlePolicy::class
+        Article::class => ArticlePolicy::class,
     ];
 
     /**
@@ -29,14 +29,22 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(GateContract $gate)
     {
         $this->registerPolicies($gate);
+
         $gate->define('VIEW_ADMIN', function($user){
 
             return $user->canDo('VIEW_ADMIN', false);
 
         });
+
         $gate->define('VIEW_ADMIN_ARTICLES', function($user){
 
             return $user->canDo('VIEW_ADMIN_ARTICLES', false);
+
+        });
+
+        $gate->define('EDIT_USERS', function($user){
+
+            return $user->canDo('EDIT_USERS', false);
 
         });
 
