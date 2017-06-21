@@ -98,9 +98,18 @@ class ArticlesController extends SiteController
         }
         //dd($article->comment->groupBy('parent_id'));
 
-        $this->title = $article->title;
-        $this->keywords = $article->keywords;
-        $this->meta_desc = $article->meta_desc;
+        if(isset($article->id)){
+
+            $this->title = $article->title;
+            $this->keywords = $article->keywords;
+            $this->meta_desc = $article->meta_desc;
+
+        }
+        else{
+
+            return redirect('/articles');
+
+        }
 
         $content = view(env('THEME').'.article_content')->with('article', $article)->render();
         $this->vars = array_add($this->vars, 'content', $content);
