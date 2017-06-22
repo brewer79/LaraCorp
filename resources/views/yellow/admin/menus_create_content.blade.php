@@ -101,15 +101,15 @@
                 {!! Form::button('Сохранить', ['class' => 'btn btn-the-salmon-dance-3','type'=>'submit']) !!}
             </li>
         </ul>
-
-
-
-
-
-
-
         {!! Form::close() !!}
-
-
     </div>
 </div>
+<script>
+    jQuery(function($) {
+        $('#accordion').accordion({
+            activate: function(e, obj) {
+                obj.newPanel.prev().find('input[type=radio]').attr('checked','checked');
+            }
+        });
+    })
+</script>

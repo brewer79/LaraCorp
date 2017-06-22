@@ -137,9 +137,14 @@ class MenusController extends AdminController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(MenuRequest $request)
     {
-        //
+        $result = $this->menu_repo->addMenu($request);
+        if(is_array($result) && !empty($result['error']))
+        {
+            return back()->with($result);
+        }
+        return redirect('/admin')->with($result);
     }
 
     /**
