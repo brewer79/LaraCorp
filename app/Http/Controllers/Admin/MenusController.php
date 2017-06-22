@@ -2,31 +2,34 @@
 
 namespace Corp\Http\Controllers\Admin;
 
+use Corp\Repositories\MenusRepository;
+use Corp\Repositories\ArticlesRepository;
+use Corp\Repositories\PortfoliosRepository;
 use Illuminate\Http\Request;
 
 use Corp\Http\Requests;
 use Corp\Http\Controllers\Controller;
 use Gate;
-use Corp\Repositories\PermissionsRepository;
-use Corp\Repositories\RolesRepository;
+use Menu;
 
-
-class PermissionsController extends AdminController
+class MenusController extends AdminController
 {
-    protected $permission_repo;
-    protected $role_repo;
+    protected $menu_repo;
 
-    public function __construct(PermissionsRepository $permission_repo, RolesRepository $role_repo)
+    public function __construct(MenusRepository $menu_repo, ArticlesRepository $article_repo, PortfoliosRepository $portfolio_repo)
     {
         parent::__construct();
 
-        if(Gate::denies('EDIT_USERS'))
+        if(Gate::denies('VIEW_ADMIN_MENU'))
         {
             abort(403);
         }
-        $this->permission_repo = $permission_repo;
-        $this->role_repo = $role_repo;
-        $this->template = env('THEME').'.admin.permissions';
+
+        $this->menu_repo = $menu_repo;
+        $this->article_repo = $article_repo;
+        $this->portfolio_repo = $portfolio_repo;
+
+        $this->template = env('THEME').'.admin.menus';
     }
 
     /**
@@ -36,24 +39,37 @@ class PermissionsController extends AdminController
      */
     public function index()
     {
-        $this->title = 'Менеджер прав пользователей';
-        $roles = $this->getRoles();
-        $permissions = $this->getPermissions();
-
-        $this->content = view(env('THEME').'.admin.permissions_content')->with(['roles' => $roles, 'privilege' => $permissions])->render();
+        $this->title = 'Меню';
+        // not getMenu from AdminController !!!
+        $menu = $this->getMenus();
+        $this->content = view(env('THEME').'.admin.menus_content')->with('menus', $menu)->render();
         return $this->renderOutput();
     }
 
-    public function getRoles()
+    public function getMenus()
     {
-        $roles = $this->role_repo->get();
-        return $roles;
-    }
-
-    public function getPermissions()
-    {
-        $permissions = $this->permission_repo->get();
-        return $permissions;
+        $menu = $this->menu_repo->get();
+        if($menu->isEmpty())
+        {
+            return false;
+        }
+        return Menu::make('forMenuPart', function($m) use($menu)
+        {
+            foreach($menu as $item)
+            {
+                if($item->parent == 0)
+                {
+                    $m->add($item->title, $item->path)->id($item->id);
+                }
+                else
+                {
+                    if ($m->find($item->parent))
+                    {
+                        $m->find($item->parent)->add($item->title, $item->path)->id($item->id);
+                    }
+                }
+            }
+        });
     }
 
     /**
@@ -74,14 +90,7 @@ class PermissionsController extends AdminController
      */
     public function store(Request $request)
     {
-        $result = $this->permission_repo->changePermissions($request);
-
-        if(is_array($result) && !empty($result['error']))
-        {
-            return back()->with($result);
-        }
-
-        return back()->with($result);
+        //
     }
 
     /**

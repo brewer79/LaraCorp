@@ -10,10 +10,10 @@ use Illuminate\Http\Request;
 use Corp\Http\Requests;
 use Illuminate\Support\Facades\Config;
 
-class IndexController extends SiteController{
-
-    public function __construct(SlidersRepository $slider_repo, PortfoliosRepository $portfolio_repo, ArticlesRepository $article_repo){
-
+class IndexController extends SiteController
+{
+    public function __construct(SlidersRepository $slider_repo, PortfoliosRepository $portfolio_repo, ArticlesRepository $article_repo)
+    {
         parent::__construct(new \Corp\Repositories\MenusRepository(new \Corp\Menu));
 
         $this->slider_repo = $slider_repo;
@@ -22,15 +22,14 @@ class IndexController extends SiteController{
 
         $this->bar = 'right';
         $this->template = env('THEME').'.index';
-
     }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
-
+    public function index()
+    {
         $portfolios = $this->getPortfolio();
         //dd($portfolios);
         $content = view(env('THEME').'.content')->with('portfolios', $portfolios)->render();
@@ -52,37 +51,34 @@ class IndexController extends SiteController{
         return $this->renderOutput();
     }
 
-    protected function getArticles(){
-
+    protected function getArticles()
+    {
         $articles = $this->article_repo->get(['title', 'created_at', 'image', 'alias'], Config::get('settings.homepage_articles_count'));
         return $articles;
-
     }
 
-    protected function getPortfolio(){
-
+    protected function getPortfolio()
+    {
         $portfolio = $this->portfolio_repo->get('*', Config::get('settings.homepage_portfolio_count'));
         return $portfolio;
-
     }
 
-    public function getSliders(){
-
+    public function getSliders()
+    {
         $sliders = $this->slider_repo->get();
 
-        if($sliders->isEmpty()){
+        if($sliders->isEmpty())
+        {
             return FALSE;
         }
-        $sliders->transform(function($item, $key){
-
+        $sliders->transform(function($item, $key)
+        {
             $item->image = Config::get('settings.slider_path').'/'.$item->image;
             return $item;
-
         });
         //dd($sliders);
 
         return $sliders;
-
     }
 
     /**

@@ -33,22 +33,24 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies($gate);
 
-        $gate->define('VIEW_ADMIN', function($user){
-
+        $gate->define('VIEW_ADMIN', function($user)
+        {
             return $user->canDo('VIEW_ADMIN', false);
-
         });
 
-        $gate->define('VIEW_ADMIN_ARTICLES', function($user){
-
+        $gate->define('VIEW_ADMIN_ARTICLES', function($user)
+        {
             return $user->canDo('VIEW_ADMIN_ARTICLES', false);
-
         });
 
-        $gate->define('EDIT_USERS', function($user){
-
+        $gate->define('EDIT_USERS', function($user)
+        {
             return $user->canDo('EDIT_USERS', false);
+        });
 
+        $gate->define('VIEW_ADMIN_MENU', function($user)
+        {
+            return $user->canDo('VIEW_ADMIN_MENU', false);
         });
 
     }

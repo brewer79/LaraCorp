@@ -28,32 +28,28 @@ class SiteController extends Controller
 
     protected $bar = 'no';
 
-    public function __construct(MenusRepository $menu_repo){
-
+    public function __construct(MenusRepository $menu_repo)
+    {
         $this->menu_repo = $menu_repo;
-
     }
 
-    protected function renderOutput(){
-
+    protected function renderOutput()
+    {
         $menu = $this->getMenu();
-
 
         $navigation = view(env('THEME').'.navigation')->with('menu', $menu)->render();
         $this->vars = array_add($this->vars, 'navigation', $navigation);
 
-        if($this->contentRightBar){
-
+        if($this->contentRightBar)
+        {
             $rightBar = view(env('THEME').'.rightBar')->with('content_rightBar', $this->contentRightBar)->render();
             $this->vars = array_add($this->vars, 'rightBar', $rightBar);
-
         }
 
-        if($this->contentLeftBar){
-
+        if($this->contentLeftBar)
+        {
             $leftBar = view(env('THEME').'.leftBar')->with('content_leftBar', $this->contentLeftBar)->render();
             $this->vars = array_add($this->vars, 'leftBar', $leftBar);
-
         }
 
         $this->vars = array_add($this->vars, 'bar', $this->bar);
@@ -68,33 +64,28 @@ class SiteController extends Controller
         return view($this->template)->with($this->vars);
     }
 
-    public function getMenu(){
-
+    public function getMenu()
+    {
         $menu = $this->menu_repo->get();
         //dd($menu);
-        $menuBuilder = Menu::make('myNav', function($m) use ($menu) {
-
-            foreach($menu as $item){
-
-                if($item->parent_id == 0){
-
+        $menuBuilder = Menu::make('myNav', function($m) use ($menu)
+        {
+            foreach($menu as $item)
+            {
+                if($item->parent_id == 0)
+                {
                     $m->add($item->title, $item->path)->id($item->id);
-
-                }else{
-
-                    if($m->find($item->parent_id)){
-
-                        $m->find($item->parent_id)->add($item->title, $item->path)->id($item->id);
-
-                    }
-
                 }
-
+                else
+                {
+                    if($m->find($item->parent_id))
+                    {
+                        $m->find($item->parent_id)->add($item->title, $item->path)->id($item->id);
+                    }
+                }
             }
-
         });
         //dd($menuBuilder);
         return $menuBuilder;
-
     }
 }

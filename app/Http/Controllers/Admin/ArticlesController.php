@@ -14,17 +14,15 @@ use Corp\Article;
 
 class ArticlesController extends AdminController
 {
-    public function __construct(ArticlesRepository $article_repo){
-
+    public function __construct(ArticlesRepository $article_repo)
+    {
         parent::__construct();
-        if(Gate::denies('VIEW_ADMIN_ARTICLES')){
-
+        if(Gate::denies('VIEW_ADMIN_ARTICLES'))
+        {
             abort(403);
-
         }
         $this->article_repo = $article_repo;
         $this->template = env('THEME').'.admin.articles';
-
     }
 
     /**
@@ -41,10 +39,9 @@ class ArticlesController extends AdminController
         return $this->renderOutput();
     }
 
-    public function getArticles(){
-
+    public function getArticles()
+    {
         return $this->article_repo->get();
-
     }
 
     /**
@@ -54,33 +51,30 @@ class ArticlesController extends AdminController
      */
     public function create()
     {
-        if(Gate::denies('save', new \Corp\Article)){
-
+        if(Gate::denies('save', new \Corp\Article))
+        {
             abort(403);
-
         }
 
         $this->title = 'Добавить новый материал';
 
         $categories = Category::select(['title', 'alias', 'parent_id', 'id'])->get();
         $lists = array();
-        foreach($categories as $category){
-
-            if($category->parent_id == 0){
-
+        foreach($categories as $category)
+        {
+            if($category->parent_id == 0)
+            {
                 $lists[$category->title] = array();
-
             }
-            else{
-
+            else
+            {
                 $lists[$categories->where('id', $category->parent_id)->first()->title][$category->id] = $category->title;
-
             }
 
         }
         $this->content = view(env('THEME').'.admin.articles_create_content')->with('categories', $lists)->render();
         return $this->renderOutput();
-;    }
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -91,10 +85,9 @@ class ArticlesController extends AdminController
     public function store(ArticleRequest $request)
     {
         $result = $this->article_repo->addArticle($request);
-        if(is_array($result) && !empty($result['error'])){
-
+        if(is_array($result) && !empty($result['error']))
+        {
             return back()->with($result);
-
         }
         return redirect('/admin')->with($result);
     }
@@ -118,23 +111,22 @@ class ArticlesController extends AdminController
      */
     public function edit(Article $article)
     {
-        if(Gate::denies('edit', new Article)){
+        if(Gate::denies('edit', new Article))
+        {
             abort(403);
         }
         $article->image = json_decode($article->image);
         $categories = Category::select(['title', 'alias', 'parent_id', 'id'])->get();
         $lists = array();
-        foreach($categories as $category){
-
-            if($category->parent_id == 0){
-
+        foreach($categories as $category)
+        {
+            if($category->parent_id == 0)
+            {
                 $lists[$category->title] = array();
-
             }
-            else{
-
+            else
+            {
                 $lists[$categories->where('id', $category->parent_id)->first()->title][$category->id] = $category->title;
-
             }
         }
         $this->title = 'Редактирование материала -'.$article->title;
@@ -152,10 +144,9 @@ class ArticlesController extends AdminController
     public function update(ArticleRequest $request, Article $article)
     {
         $result = $this->article_repo->updateArticle($request, $article);
-        if(is_array($result) && !empty($result['error'])){
-
+        if(is_array($result) && !empty($result['error']))
+        {
             return back()->with($result);
-
         }
         return redirect('/admin')->with($result);
     }
@@ -169,10 +160,9 @@ class ArticlesController extends AdminController
     public function destroy(Article $article)
     {
         $result = $this->article_repo->deleteArticle($article);
-        if(is_array($result) && !empty($result['error'])){
-
+        if(is_array($result) && !empty($result['error']))
+        {
             return back()->with($result);
-
         }
         return redirect('/admin')->with($result);
     }
