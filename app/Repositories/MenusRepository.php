@@ -3,6 +3,7 @@
 namespace Corp\Repositories;
 
 use Corp\Menu;
+use Gate;
 
 class MenusRepository extends Repository {
 
@@ -18,7 +19,19 @@ class MenusRepository extends Repository {
             abort(403);
         }
 
-        $data = $request->only('_token', 'image', '_method');
+        $data = $request->only('type', 'title', 'parent');
+        if(empty($data))
+        {
+            return ['error' => 'Нет данных'];
+        }
+
+        switch($data['type'])
+        {
+            case 'customLink':
+                $data['path'] = $request->input('custom_link');
+            break;
+        }
+        //dd($data);
     }
 }
 ?>

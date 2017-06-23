@@ -10,6 +10,7 @@ use Corp\Repositories\PortfoliosRepository;
 use Illuminate\Http\Request;
 
 use Corp\Http\Requests;
+use Corp\Http\Requests\MenuRequest;
 use Corp\Http\Controllers\Controller;
 use Gate;
 use Menu;
@@ -44,6 +45,7 @@ class MenusController extends AdminController
         $this->title = 'Меню';
         // not getMenu from AdminController !!!
         $menu = $this->getMenus();
+        //dd($menu);
         $this->content = view(env('THEME').'.admin.menus_content')->with('menus', $menu)->render();
         return $this->renderOutput();
     }
@@ -51,23 +53,25 @@ class MenusController extends AdminController
     public function getMenus()
     {
         $menu = $this->menu_repo->get();
+
         if($menu->isEmpty())
         {
-            return false;
+            return FALSE;
         }
+
         return Menu::make('forMenuPart', function($m) use($menu)
         {
             foreach($menu as $item)
             {
                 if($item->parent == 0)
                 {
-                    $m->add($item->title, $item->path)->id($item->id);
+                    $m->add($item->title,$item->path)->id($item->id);
                 }
                 else
                 {
-                    if ($m->find($item->parent))
+                    if($m->find($item->parent))
                     {
-                        $m->find($item->parent)->add($item->title, $item->path)->id($item->id);
+                        $m->find($item->parent)->add($item->title,$item->path)->id($item->id);
                     }
                 }
             }
@@ -84,6 +88,7 @@ class MenusController extends AdminController
         $this->title = 'Новый пункт меню';
 
         $temp = $this->getMenus()->roots();
+        //dd($temp);
         $menus = $temp->reduce(function($returnMenus, $menu)
         {
             $returnMenus[$menu->id] = $menu->title;
