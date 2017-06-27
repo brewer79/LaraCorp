@@ -19,11 +19,13 @@ class MenusRepository extends Repository {
             abort(403);
         }
 
-        $data = $request->only('type', 'title', 'parent_id');
+        $data = $request->only('type', 'title', 'parent');
+        //dd($data);
         if(empty($data))
         {
             return ['error' => 'Нет данных'];
         }
+        //dd($request->all());
 
         switch($data['type'])
         {
@@ -31,8 +33,7 @@ class MenusRepository extends Repository {
                 $data['path'] = $request->input('custom_link');
             break;
 
-            /*case 'blogLink' :
-
+            case 'blogLink' :
                 if($request->input('category_alias'))
                 {
                     if($request->input('category_alias') == 'parent')
@@ -50,7 +51,7 @@ class MenusRepository extends Repository {
                 }
             break;
 
-            case 'portfolioLink' :
+            /*case 'portfolioLink' :
                 if($request->input('filter_alias'))
                 {
                     if($request->input('filter_alias') == 'parent')
@@ -64,6 +65,7 @@ class MenusRepository extends Repository {
                 }
             break;*/
         }
+        //dd($data);
 
         unset($data['type']);
 

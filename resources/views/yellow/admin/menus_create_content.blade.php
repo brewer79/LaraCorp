@@ -19,7 +19,7 @@
                     <span class="sublabel">Родитель:</span><br />
                 </label>
                 <div class="input-prepend">
-                    {!! Form::select('parent', $menus, isset($menu->parent_id) ? $menu->parent_id : null) !!}
+                    {!! Form::select('parent', $menus, isset($menu->parent) ? $menu->parent : null) !!}
                 </div>
             </li>
         </ul>
