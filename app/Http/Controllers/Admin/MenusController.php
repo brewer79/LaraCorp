@@ -56,22 +56,22 @@ class MenusController extends AdminController
 
         if($menu->isEmpty())
         {
-            return FALSE;
+            return false;
         }
 
         return Menu::make('forMenuPart', function($m) use($menu)
         {
             foreach($menu as $item)
             {
-                if($item->parent == 0)
+                if($item->parent_id == 0)
                 {
                     $m->add($item->title,$item->path)->id($item->id);
                 }
                 else
                 {
-                    if($m->find($item->parent))
+                    if($m->find($item->parent_id))
                     {
-                        $m->find($item->parent)->add($item->title,$item->path)->id($item->id);
+                        $m->find($item->parent_id)->add($item->title,$item->path)->id($item->id);
                     }
                 }
             }
@@ -87,15 +87,17 @@ class MenusController extends AdminController
     {
         $this->title = 'Новый пункт меню';
 
-        $temp = $this->getMenus()->roots();
-        //dd($temp);
-        $menus = $temp->reduce(function($returnMenus, $menu)
+        $tmp = $this->getMenus()->roots();
+        //dd($tmp);
+        $menus = $tmp->reduce(function($returnMenus, $menu)
         {
             $returnMenus[$menu->id] = $menu->title;
             return $returnMenus;
         }, ['0' => 'Родительский пункт меню']);
+        //dd($menus);
 
         $categories = Category::select(['title', 'alias', 'parent_id', 'id'])->get();
+        //dd($categories);
         $list = array();
         $list = array_add($list, '0', 'Не используется');
         $list = array_add($list, 'parent', 'Раздел Блог');
@@ -113,11 +115,13 @@ class MenusController extends AdminController
         }
 
         $articles = $this->article_repo->get(['id', 'title', 'alias']);
+        //dd($articles);
         $articles = $articles->reduce(function($returnArticles, $article)
         {
             $returnArticles[$article->alias] = $article->title;
             return $returnArticles;
         }, []);
+        //dd($articles);
 
         $filters = Filter::select('id','title','alias')->get()->reduce(function ($returnFilters, $filter)
         {
