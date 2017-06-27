@@ -25,7 +25,8 @@
         </ul>
         <h1>Тип меню:</h1>
         <div id="accordion">
-            <h3>{!! Form::radio('type', 'customLink',(isset($type) && $type == 'customLink') ? TRUE : FALSE,['class' => 'radioMenu']) !!}
+            <h3>{!! Form::radio('type', 'customLink',true,['class' => 'radioMenu']) !!}
+        <!--h3>{!! Form::radio('type', 'customLink',(isset($type) && $type == 'customLink') ? TRUE : FALSE,['class' => 'radioMenu']) !!}   -->
                 <span class="label">Пользовательская ссылка:</span></h3>
             <ul>
                 <li class="text-field">
