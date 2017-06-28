@@ -4,6 +4,8 @@ namespace Corp\Providers;
 
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Corp\Article;
+use Corp\Menu;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -26,12 +28,16 @@ class RouteServiceProvider extends ServiceProvider
     {
         $router->pattern('alias', '[\w-]+');
         parent::boot($router);
-        $router->bind('articles', function($value){
 
-            return \Corp\Article::where('alias', $value)->first();
-
+        $router->bind('articles', function($value)
+        {
+            return Article::where('alias', $value)->first();
         });
 
+        $router->bind('menus', function($value)
+        {
+            return Menu::where('id', $value)->first();
+        });
     }
 
     /**
@@ -43,7 +49,6 @@ class RouteServiceProvider extends ServiceProvider
     public function map(Router $router)
     {
         $this->mapWebRoutes($router);
-
     }
 
     /**
@@ -58,8 +63,9 @@ class RouteServiceProvider extends ServiceProvider
     {
         $router->group([
             'namespace' => $this->namespace, 'middleware' => 'web',
-        ], function ($router) {
-            require app_path('Http/routes.php');
-        });
+                        ], function ($router)
+                        {
+                            require app_path('Http/routes.php');
+                        });
     }
 }
