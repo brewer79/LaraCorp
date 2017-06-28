@@ -10,6 +10,6 @@
         </td>
     </tr>
     @if($item->hasChildren())
-        @include(env('THEME').'.admin.custom_menu_items', array('items' => $item->children(),'paddingLeft' => $paddingLeft.'--'))
+        @include(config('settings.theme').'.admin.custom_menu_items', array('items' => $item->children(),'paddingLeft' => $paddingLeft.'--'))
     @endif
 @endforeach

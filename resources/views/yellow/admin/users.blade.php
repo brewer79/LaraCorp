@@ -1,4 +1,4 @@
-@extends(config('settings.theme').'.layouts.site')
+@extends(config('settings.theme').'.layouts.admin')
 
 @section('navigation')
     {!! $navigation !!}
@@ -10,4 +10,4 @@
 
 @section('footer')
     {!! $footer !!}
-@endsection
+@endsection 

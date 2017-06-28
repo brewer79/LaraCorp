@@ -24,7 +24,7 @@
                             <td class="align-left">{{str_limit($article->text,200)}}</td>
                             <td>
                                 @if(isset($article->image->mini))
-                                    {!! Html::image(asset(env('THEME')).'/images/articles/'.$article->image->mini) !!}
+                                    {!! Html::image(asset(config('settings.theme')).'/images/articles/'.$article->image->mini) !!}
                                 @endif
                             </td>
                             <td>{{$article->category->title}}</td>

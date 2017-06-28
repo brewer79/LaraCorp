@@ -32,7 +32,7 @@ class MenusController extends AdminController
         $this->article_repo = $article_repo;
         $this->portfolio_repo = $portfolio_repo;
 
-        $this->template = env('THEME').'.admin.menus';
+        $this->template = config('settings.theme').'.admin.menus';
     }
 
     /**
@@ -46,7 +46,7 @@ class MenusController extends AdminController
         // not getMenu from AdminController !!!
         $menu = $this->getMenus();
         //dd($menu);
-        $this->content = view(env('THEME').'.admin.menus_content')->with('menus', $menu)->render();
+        $this->content = view(config('settings.theme').'.admin.menus_content')->with('menus', $menu)->render();
         return $this->renderOutput();
     }
 
@@ -135,7 +135,7 @@ class MenusController extends AdminController
             return $returnPortfolios;
         }, []);
 
-        $this->content = view(env('THEME').'.admin.menus_create_content')->with(['menus'=>$menus,'categories'=>$list,'articles'=>$articles,'filters' => $filters,'portfolios' => $portfolios])->render();
+        $this->content = view(config('settings.theme').'.admin.menus_create_content')->with(['menus'=>$menus,'categories'=>$list,'articles'=>$articles,'filters' => $filters,'portfolios' => $portfolios])->render();
 
         return $this->renderOutput();
     }
@@ -262,7 +262,7 @@ class MenusController extends AdminController
             return $returnPortfolios;
         }, []);
 
-        $this->content = view(env('THEME').'.admin.menus_edit_content')->with(['menu' => $menu, 'type' => $type, 'option' => $option, 'menus'=>$menus,'categories'=>$list,'articles'=>$articles,'filters' => $filters,'portfolios' => $portfolios])->render();
+        $this->content = view(config('settings.theme').'.admin.menus_edit_content')->with(['menu' => $menu, 'type' => $type, 'option' => $option, 'menus'=>$menus,'categories'=>$list,'articles'=>$articles,'filters' => $filters,'portfolios' => $portfolios])->render();
 
         return $this->renderOutput();
     }

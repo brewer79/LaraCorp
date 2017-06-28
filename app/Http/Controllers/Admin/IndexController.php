@@ -18,7 +18,7 @@ class IndexController extends AdminController
             abort(403);
 
         }
-        $this->template = env('THEME').'.admin.index';
+        $this->template = config('settings.theme').'.admin.index';
 
     }
 

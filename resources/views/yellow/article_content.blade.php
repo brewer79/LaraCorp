@@ -9,7 +9,7 @@
             <h1 class="post-title"><a href="#">{{ $article->title }}</a></h1>
             <!-- post featured -->
             <div class="image-wrap">
-                <img src="{{ asset(env('THEME')) }}/images/articles/{{ $article->image->max }}" alt="00212" title="00212" />
+                <img src="{{ asset(config('settings.theme')) }}/images/articles/{{ $article->image->max }}" alt="00212" title="00212" />
             </div>
             <p class="date">
                 <span class="month">{{ $article->created_at->format('M') }}</span>
@@ -55,7 +55,7 @@
                     @break
                 @endif
 
-                @include(env('THEME').'.comment', ['items' => $comment])
+                @include(config('settings.theme').'.comment', ['items' => $comment])
             @endforeach
 
         </ol>

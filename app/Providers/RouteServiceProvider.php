@@ -6,6 +6,7 @@ use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Corp\Article;
 use Corp\Menu;
+use Corp\User;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -37,6 +38,10 @@ class RouteServiceProvider extends ServiceProvider
         $router->bind('menus', function($value)
         {
             return Menu::where('id', $value)->first();
+        });
+
+        $router->bind('users', function ($value) {
+            return User::find($value);
         });
     }
 

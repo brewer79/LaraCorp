@@ -71,8 +71,6 @@ class User extends Authenticatable
                 }
             }
         }
-        //!!!!!
-        return false;
     }
 
     // may be 'string' or array()

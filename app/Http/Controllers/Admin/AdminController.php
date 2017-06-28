@@ -8,6 +8,7 @@ use Corp\Http\Requests;
 use Corp\Http\Controllers\Controller;
 use Auth;
 use Menu;
+use Gate;
 
 class AdminController extends \Corp\Http\Controllers\Controller
 {
@@ -34,7 +35,7 @@ class AdminController extends \Corp\Http\Controllers\Controller
 
         $menu = $this->getMenu();
 
-        $navigation = view(env('THEME').'.admin.navigation')->with('menu', $menu)->render();
+        $navigation = view(config('settings.theme').'.admin.navigation')->with('menu', $menu)->render();
         $this->vars = array_add($this->vars, 'navigation', $navigation);
 
         if($this->content)
@@ -42,7 +43,7 @@ class AdminController extends \Corp\Http\Controllers\Controller
             $this->vars = array_add($this->vars, 'content', $this->content);
         }
 
-        $footer = view(env('THEME').'.admin.footer')->render();
+        $footer = view(config('settings.theme').'.admin.footer')->render();
         $this->vars = array_add($this->vars, 'footer', $footer);
 
         return view($this->template)->with($this->vars);
@@ -52,10 +53,13 @@ class AdminController extends \Corp\Http\Controllers\Controller
     {
         return Menu::make('adminMenu', function($menu)
         {
-            $menu->add('Статьи', array('route' => 'admin.articles.index'));
+            if(Gate::allows('VIEW_ADMIN_ARTICLES'))
+            {
+                $menu->add('Статьи', array('route' => 'admin.articles.index'));
+            }
             $menu->add('Портфолио', array('route' => 'admin.articles.index'));
             $menu->add('Меню', array('route' => 'admin.menus.index'));
-            $menu->add('Пользователи', array('route' => 'admin.articles.index'));
+            $menu->add('Пользователи', array('route' => 'admin.users.index'));
             $menu->add('Привилегии', array('route' => 'admin.permissions.index'));
         });
     }
