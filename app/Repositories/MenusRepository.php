@@ -51,7 +51,7 @@ class MenusRepository extends Repository {
                 }
             break;
 
-            /*case 'portfolioLink' :
+            case 'portfolioLink' :
                 if($request->input('filter_alias'))
                 {
                     if($request->input('filter_alias') == 'parent')
@@ -63,7 +63,7 @@ class MenusRepository extends Repository {
                 {
                     $data['path'] = route('portfolios.show',['alias' => $request->input('portfolio_alias')]);
                 }
-            break;*/
+            break;
         }
         //dd($data);
 
